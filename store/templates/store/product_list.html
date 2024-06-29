@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <h1>Gestión de Productos</h1>
+    <br>
+
+    <button type="button">
+        <a href="{% url 'product_add' %}"> Agregar Producto </a>
+    </button>
+
+    <div id="idMensajes">
+        {% if mensaje %}
+            {{ mensaje }}
+        {% endif %}
+    </div>
+
+    <table>
+        {% if products %}
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Imagen</th>
+                <th>Eliminar</th>
+                <th>Modificar</th>
+            </tr>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.nombre }}</td>
+                    <td>{{ product.precio }}</td>
+                    <td><img src="{{ product.imageURL }}" alt="{{ product.nombre }}" width="50"></td>
+                    <td><a href="{% url 'product_delete' product.id %}">Eliminar</a></td>
+                    <td><a href="{% url 'product_edit' product.id %}">Modificar</a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5">No hay productos disponibles.</td>
+            </tr>
+        {% endif %}
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#idMensajes").delay(2000).fadeOut("slow");
+        });
+    </script>
+
+</body>
+</html>
