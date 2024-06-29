@@ -10,3 +10,8 @@ class ProductForm(forms.ModelForm):
             'precio': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Precio'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
+class MyForm(forms.Form):
+    username = forms.CharField(label='Nombre de usuario', error_messages={'required': 'Este campo es obligatorio.'})
+    email = forms.EmailField(label='Correo Electrónico')
+    password = forms.CharField(label='Contraseña')
