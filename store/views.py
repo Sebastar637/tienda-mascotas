@@ -6,7 +6,7 @@ from .models import *
 from .utils import cookieCart, cartData
 from .forms import ProductForm
 
-def about(request):
+def about_us(request):
     context = {}
     return render(request, 'store/about.html', context)
 

@@ -11,10 +11,14 @@
 				<br>
 				<table class="table">
 					<tr>
-						<th><h5>Artículos: <strong>{{order.get_cart_items}}</strong></h5></th>
-						<th><h5>Total:<strong> ${{order.get_cart_total}}</strong></h5></th>
+						<th><h5>Artículos: <strong>{{ order.get_cart_items }}</strong></h5></th>
+						<th><h5>Total:<strong> ${{ order.get_cart_total }}</strong></h5></th>
 						<th>
-							<a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Pagar</a>
+							{% if items %}
+								<a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Pagar</a>
+							{% else %}
+								<a style="float:right; margin:5px;" class="btn btn-success btn-disabled" href="#" disabled>Pagar</a>
+							{% endif %}
 						</th>
 					</tr>
 				</table>
@@ -22,31 +26,52 @@
 			</div>
 
 			<br>
-			<div class="box-element">
-				<div class="cart-row">
-					<div style="flex:2"></div>
-					<div style="flex:2"><strong>Artículo</strong></div>
-					<div style="flex:1"><strong>Precio</strong></div>
-					<div style="flex:1"><strong>Cantidad</strong></div>
-					<div style="flex:1"><strong>Total</strong></div>
-				</div>
-				{% for item in items %}
-				<div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{{item.producto.imageURL}}"></div>
-					<div style="flex:2"><p>{{item.producto.nombre}}</p></div>
-					<div style="flex:1"><p>${{item.producto.precio}}</p></div>
-					<div style="flex:1">
-						<p class="quantity">{{item.cantidad}}</p>
-						<div class="quantity">
-							<img data-product="{{item.producto.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'img/arrow_up.png' %}">
-					
-							<img data-product="{{item.producto.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow_down.png' %}">
-						</div>
+			{% if items %}
+				<div class="box-element">
+					<div class="cart-row">
+						<div style="flex:2"></div>
+						<div style="flex:2"><strong>Artículo</strong></div>
+						<div style="flex:1"><strong>Precio</strong></div>
+						<div style="flex:1"><strong>Cantidad</strong></div>
+						<div style="flex:1"><strong>Total</strong></div>
 					</div>
-					<div style="flex:1"><p>${{item.get_total}}</p></div>
+					{% for item in items %}
+					<div class="cart-row">
+						<div style="flex:2"><img class="row-image" src="{{ item.producto.imageURL }}"></div>
+						<div style="flex:2"><p>{{ item.producto.nombre }}</p></div>
+						<div style="flex:1"><p>${{ item.producto.precio }}</p></div>
+						<div style="flex:1">
+							<p class="quantity">{{ item.cantidad }}</p>
+							<div class="quantity">
+								<img data-product="{{ item.producto.id }}" data-action="add" class="chg-quantity update-cart" src="{% static  'img/arrow_up.png' %}">
+								<img data-product="{{ item.producto.id }}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow_down.png' %}">
+							</div>
+						</div>
+						<div style="flex:1"><p>${{ item.get_total }}</p></div>
+					</div>
+					{% endfor %}
 				</div>
-				{% endfor %}
-			</div>
+			{% else %}
+				<div class="box-element">
+					<p>No hay artículos en tu carrito.</p>
+				</div>
+			{% endif %}
 		</div>
 	</div>
+
+	<style>
+		.btn-disabled {
+			background-color: #999;
+			color: #ccc;
+			cursor: not-allowed;
+			pointer-events: none;
+			border-color: #999;
+		}
+
+		.btn-disabled:hover {
+			background-color: #999;
+			color: #ccc;
+			border-color: #999;
+		}
+	</style>
 {% endblock content %}

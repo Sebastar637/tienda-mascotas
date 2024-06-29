@@ -11,6 +11,12 @@ a {
     color: black;
 }
 
+.btn-disabled {
+    background-color: #999;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
 .box-element{
 	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
 	background-color: #fff;
