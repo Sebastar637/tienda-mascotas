@@ -113,12 +113,24 @@ def processOrder(request):
 	return JsonResponse('Payment submitted..', safe=False)
 
 def login(request):
-    context = {}
-    return render(request, 'store/login.html', context)
+	data = cartData(request)
+
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
+
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
+	return render(request, 'store/login.html', context)
 
 def register(request):
-    context = {}
-    return render(request, 'store/register.html', context)
+	data = cartData(request)
+
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
+
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
+	return render(request, 'store/register.html', context)
 
 def product_list(request):
     products = Product.objects.all()

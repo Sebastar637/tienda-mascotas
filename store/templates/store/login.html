@@ -1,6 +1,9 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}">
+</head>
 <main>
     <div class="container">
         <div class="row justify-content-center">
@@ -23,7 +26,7 @@
                                 <label class="form-check-label" for="remember">Recuérdame</label>
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                                <button type="submit" class="btn btn-login w-100">Iniciar Sesión</button>
                             </div>
                         </form>
                     </div>

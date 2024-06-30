@@ -13,6 +13,8 @@
     <script type="text/javascript">
         var user = '{{request.user}}';
 
+
+        // Obtenido de: https://docs.djangoproject.com/en/4.0/ref/csrf/#ajax
         function getToken(name) {
             var cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -47,10 +49,8 @@
 
         if (cart == undefined) {
             cart = {};
-            console.log('Cart Created!', cart);
             document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/";
         }
-        console.log('Cart:', cart);
     </script>
 </head>
 <body>
@@ -81,7 +81,7 @@
                 
                 <div class="form-inline my-2 my-lg-0">
                     {% if user.is_authenticated %}
-                        <a href="#" class="btn btn-warning">Cerrar sesión</a>
+                        <a href="#" class="btn" style="background-color: #e9ecef;">Cerrar sesión</a>
                     {% else %}
                         <a href="{% url 'login' %}" class="btn" style="background-color: #e9ecef; margin-right: 20px;">Iniciar sesión</a>
                         <a href="{% url 'register' %}" class="btn" style="background-color: #e9ecef;">Registrarse</a>

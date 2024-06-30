@@ -4,8 +4,6 @@ for (i = 0; i < updateBtns.length; i++) {
 	updateBtns[i].addEventListener('click', function(){
 		var productId = this.dataset.product
 		var action = this.dataset.action
-		console.log('productId:', productId, 'Action:', action)
-		console.log('USER:', user)
 
 		if (user == 'AnonymousUser'){
 			addCookieItem(productId, action)
@@ -16,8 +14,6 @@ for (i = 0; i < updateBtns.length; i++) {
 }
 
 function updateUserOrder(productId, action, btn){
-    console.log('User is authenticated, sending data...');
-
     var url = '/update_item/';
 
     fetch(url, {
@@ -32,14 +28,11 @@ function updateUserOrder(productId, action, btn){
         return response.json();
     })
     .then((data) => {
-        console.log("reset")
         location.reload()
     });
 }
 
 function addCookieItem(productId, action) {
-    console.log('User is not authenticated')
-
     if (action == 'add') {
         if (cart[productId] == undefined) {
             cart[productId] = {'cantidad': 1}
@@ -56,8 +49,10 @@ function addCookieItem(productId, action) {
         }
     }
 
-    console.log('CART:', cart)
     document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
     location.reload()
 }
 
+function formatearPrecio(precio) {
+    return precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
