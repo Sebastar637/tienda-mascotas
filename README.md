@@ -1,15 +1,7 @@
-#Pasos para instalar
+# Comando para activar entorno virtual
 
-py -m venv venv
+- venv\Scripts\activate
 
-venv\Scripts\activate
+# Para abrir el servidor
 
-pip install -r requirements.txt
-
-py manage.py makemigrations
-
-py manage.py migrate
-
-#Para abrir el servidor
-
-py manage.py runserver
+- py manage.py runserver
