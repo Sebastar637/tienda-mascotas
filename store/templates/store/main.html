@@ -65,7 +65,6 @@
 
     <nav class="navbar navbar-expand-lg barra-nav">
         <div class="container">
-            <a class="navbar-brand d-block d-lg-none" href="{% url 'index' %}">PetPaw</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -73,10 +72,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" style="color: black;" href="{% url 'index' %}">Tienda</a>
+                        <a class="btn" style="background-color: #D8EFD3; color: black; margin-right: 5px;" href="{% url 'index' %}">Tienda</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" style="color: black;" href="{% url 'about_us' %}">Sobre Nosotros</a>
+                        <a class="btn" style="background-color: #D8EFD3; color: black;" href="{% url 'about_us' %}">Sobre Nosotros</a>
                     </li>
                 </ul>
                 
@@ -84,8 +83,8 @@
                     {% if user.is_authenticated %}
                         <a href="#" class="btn btn-warning">Cerrar sesión</a>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-warning" style="margin-right: 10px;">Iniciar sesión</a>
-                        <a href="{% url 'register' %}" class="btn btn-warning">Registrarse</a>
+                        <a href="{% url 'login' %}" class="btn" style="background-color: #e9ecef; margin-right: 20px;">Iniciar sesión</a>
+                        <a href="{% url 'register' %}" class="btn" style="background-color: #e9ecef;">Registrarse</a>
                     {% endif %}
 
                     <a href="{% url 'cart' %}">
