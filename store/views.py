@@ -2,24 +2,50 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 import json
 import datetime
+from random import sample
 from .models import * 
 from .utils import cookieCart, cartData
 from .forms import ProductForm
 
 def about_us(request):
-    context = {}
-    return render(request, 'store/about.html', context)
-
-def index(request):
 	data = cartData(request)
 
 	cartItems = data['cartItems']
 	order = data['order']
 	items = data['items']
 
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
+	return render(request, 'store/about_us.html', context)
+
+def index(request):
 	products = Product.objects.all()
-	context = {'products':products, 'cartItems':cartItems}
+	random_products = sample(list(products), min(8, len(products)))
+
+	data = cartData(request)
+
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
+
+	context = {'products':products, 'cartItems':cartItems, 'random_products': random_products}
 	return render(request, 'store/index.html', context)
+
+def product_detail(request, product_id):
+    data = cartData(request)
+
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+
+    product = get_object_or_404(Product, id=product_id)
+    products = Product.objects.all()
+
+    context = {
+        'product': product,
+        'products':products, 
+        'cartItems':cartItems
+    }
+    return render(request, 'store/product_detail.html', context)
 
 def cart(request):
 	data = cartData(request)

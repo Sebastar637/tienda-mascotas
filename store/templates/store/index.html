@@ -1,25 +1,51 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-	<div class="row">
-		{% for product in products %}
+    {% if random_products %}
+    <div id="product-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for product in random_products %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                {% if product.imagen %}
+                    <a href="{% url 'product_detail' product.id %}"><img class="thumbnail_2" src="{{ product.imageURL }}"></a>
+                {% else %}
+                    <a href="{% url 'product_detail' product.id %}"><img class="thumbnail_2" src="{% static 'img/default.png' %}"></a>
+                {% endif %}
+                <div class="carousel-caption">
+                    <h5 style="font-size: 30px;">{{ product.nombre }}</h5>
+                    <p>${{ product.precio }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    {% endif %}
+    <div class="row mt-4">
+        {% for product in products %}
 		<div class="col-lg-4">
 			{% if product.imagen %}
-                <a href="#"><img class="thumbnail" src="{{product.imageURL}}"></a>
+                <a href="{% url 'product_detail' product.id %}"><img class="thumbnail" src="{{ product.imageURL }}"></a>
             {% else %}
-                <a href="#"><img class="thumbnail" src="{% static 'img/default.png' %}"></a>
+                <a href="{% url 'product_detail' product.id %}"><img class="thumbnail" src="{% static 'img/default.png' %}"></a>
             {% endif %}
 			<div class="box-element product">
-				<h6><strong><a href="#">{{product.nombre}}</a></strong></h6>
+				<h6><strong><a href="{% url 'product_detail' product.id %}">{{ product.nombre }}</a></strong></h6>
 				<hr>
 
-				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Agregar al Carrito</button>
+				<button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Agregar al Carrito</button>
 				
-				<h4 style="display: inline-block; float: right"><strong>${{product.precio}}</strong></h4>
+				<h4 style="display: inline-block; float: right"><strong>${{ product.precio }}</strong></h4>
 
 			</div>
 		</div>
-		{% endfor %}
-	</div>
-
+        {% endfor %}
+    </div>
 {% endblock content %}

@@ -1,1 +1,18 @@
-<h3>about us</h3>
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{% static 'img/about_us.png' %}" alt="Sobre Nosotros" class="img-fluid rounded">
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-4">Sobre Nosotros</h1>
+            <p>Somos un grupo de amigas apasionadas por las mascotas y comprometidas con ayudar a una fundación sin fines de lucro. Nuestra misión comenzó con la venta de productos para mascotas como bandanas, correas e identificaciones, utilizando las redes sociales como plataforma principal.</p>
+            <p>A medida que nuestra popularidad creció, nos dimos cuenta de que era casi imposible gestionar la demanda solo a través de las redes sociales. Por eso, hemos contactado a los talentosos alumnos del Duoc para que nos ayuden a construir una aplicación web.</p>
+            <p>Con esta nueva plataforma, nuestros usuarios podrán elaborar listas de compras, ayudándonos a ordenar nuestros presupuestos, mejorar nuestras finanzas, y realizar aportes a la fundación sin fines de lucro. Además, esperamos mejorar la venta y el despacho de nuestros productos para llegar a más amantes de las mascotas.</p>
+            <p>¡Gracias por ser parte de nuestra comunidad y por apoyar nuestra causa!</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

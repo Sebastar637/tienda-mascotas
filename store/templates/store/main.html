@@ -45,7 +45,7 @@
         }
         var cart = JSON.parse(getCookie('cart'));
 
-        if (cart === undefined) {
+        if (cart == undefined) {
             cart = {};
             console.log('Cart Created!', cart);
             document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/";
@@ -54,48 +54,57 @@
     </script>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg barra-nombre">
+        <div class="container">
+            <a class="navbar-brand mx-auto" href="{% url 'index' %}">
+                <img src="{% static 'img/logo.png' %}" alt="Logo de PetPaw" style="height: 80px; width: auto;">
+            </a>
+        </div>
+    </nav>
+    
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'index' %}">PetPaw</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar navbar-expand-lg barra-nav">
+        <div class="container">
+            <a class="navbar-brand d-block d-lg-none" href="{% url 'index' %}">PetPaw</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'index' %}">Tienda</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'about_us' %}">Sobre Nosotros</a>
-                </li>
-            </ul>
-            
-            <div class="form-inline my-2 my-lg-0">
-                {% if user.is_authenticated %}
-                    <a href="#" class="btn btn-warning">Cerrar sesión</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-warning" style="margin-right: 10px;">Iniciar sesión</a>
-                    <a href="{% url 'register' %}" class="btn btn-warning">Registrarse</a>
-                {% endif %}
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" style="color: black;" href="{% url 'index' %}">Tienda</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" style="color: black;" href="{% url 'about_us' %}">Sobre Nosotros</a>
+                    </li>
+                </ul>
+                
+                <div class="form-inline my-2 my-lg-0">
+                    {% if user.is_authenticated %}
+                        <a href="#" class="btn btn-warning">Cerrar sesión</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-warning" style="margin-right: 10px;">Iniciar sesión</a>
+                        <a href="{% url 'register' %}" class="btn btn-warning">Registrarse</a>
+                    {% endif %}
 
-                <a href="{% url 'cart' %}">
-                    <img id="cart-icon" src="{% static 'img/shopping_cart.png' %}">
-                </a>
+                    <a href="{% url 'cart' %}">
+                        <img id="cart-icon" src="{% static 'img/shopping_cart.png' %}">
+                    </a>
 
-                <p id="cart-total">{{cartItems}}</p>
+                    <p id="cart-total">{{cartItems}}</p>
+                </div>
             </div>
         </div>
     </nav>
 
-     <div class="container">
+    <div class="container">
         <br>
         {% block content %}
 
 
         {% endblock content %}
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 

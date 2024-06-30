@@ -1,0 +1,23 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/product_detail.css' %}">
+</head>
+<div class="container mt-5 product_block">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.imagen %}
+                <img src="{{ product.imageURL }}" alt="{{ product.nombre }}" class="img-fluid">
+            {% else %}
+                <img src="{% static 'img/default.png' %}" alt="Default Image" class="img-fluid">
+            {% endif %}
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h2 class="product-name">{{ product.nombre }}</h2>
+            <h3 class="product-price">${{ product.precio }}</h3>
+            <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Agregar al Carrito</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}

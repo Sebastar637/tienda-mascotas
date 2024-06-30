@@ -1,0 +1,47 @@
+.product-name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.product-description {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.product-price {
+    font-size: 1.8rem;
+    color: black;
+    margin-bottom: 1.5rem;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.btn-outline-secondary {
+    font-size: 1.2rem;
+    padding: 0.5rem 2rem;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.product_block {
+    padding-top: 35px;
+    padding-bottom: 35px;
+    background-color: white;
+    border-radius: 10px;
+
+}
