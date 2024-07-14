@@ -1,7 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
+
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
 from django.http import JsonResponse
+
 import json
 import datetime
+
 from random import sample
 from .models import * 
 from .utils import cookieCart, cartData
@@ -112,7 +118,17 @@ def processOrder(request):
 
 	return JsonResponse('Payment submitted..', safe=False)
 
-def login(request):
+def login_view(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			login(request, user)
+			return redirect('index')
+		else:
+			messages.error(request, 'Nombre de usuario o contraseña incorrectos')
+
 	data = cartData(request)
 
 	cartItems = data['cartItems']
@@ -122,7 +138,32 @@ def login(request):
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/login.html', context)
 
+
 def register(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		email = request.POST['email']
+		password1 = request.POST['password1']
+		password2 = request.POST['password2']
+
+		if password1 == password2:
+			if User.objects.filter(username=username).exists():
+				messages.error(request, 'El nombre de usuario ya está en uso')
+			elif User.objects.filter(email=email).exists():
+				messages.error(request, 'El correo electrónico ya está en uso')
+			else:
+				user = User.objects.create_user(username=username, email=email, password=password1)
+				user.save()
+
+				customer = Customer.objects.create(usuario=user, nombre=username, email=email)
+				customer.save()
+
+				login(request, user)
+				messages.success(request, 'Registro exitoso')
+				return redirect('index')
+		else:
+			messages.error(request, 'Las contraseñas no coinciden')
+	
 	data = cartData(request)
 
 	cartItems = data['cartItems']
@@ -131,6 +172,7 @@ def register(request):
 
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/register.html', context)
+
 
 def product_list(request):
     products = Product.objects.all()
