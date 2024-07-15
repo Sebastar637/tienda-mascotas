@@ -40,7 +40,6 @@ def cookieCart(request):
 	return {'cartItems':cartItems ,'order':order, 'items':items}
 
 def cartData(request):
-	print("cart")
 	if request.user.is_authenticated:
 		customer = request.user.customer
 		order, created = Order.objects.get_or_create(cliente=customer, completado=False)
@@ -53,3 +52,7 @@ def cartData(request):
 		items = cookieData['items']
 
 	return {'cartItems':cartItems ,'order':order, 'items':items}
+
+def format_number(number):
+    formatted_total = "{:,.0f}".format(number)
+    return formatted_total.replace(",", ".")

@@ -1,0 +1,35 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}">
+</head>
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">Donar a la Fundación</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="amount" class="form-label">Selecciona el monto de la donación</label>
+                                <select class="form-control" id="amount" name="amount">
+                                    <option value="5000">$5.000</option>
+                                    <option value="10000">$10.000</option>
+                                    <option value="20000">$20.000</option>
+                                    <option value="50000">$50.000</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-login w-100">Donar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

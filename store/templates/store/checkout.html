@@ -52,7 +52,7 @@
                 <div class="cart-row">
                     <div style="flex:2"><img class="row-image" src="{{ item.producto.imageURL }}"></div>
                     <div style="flex:2"><p>{{ item.producto.nombre }}</p></div>
-                    <div style="flex:1"><p>${{ item.producto.precio }}</p></div>
+                    <div style="flex:1"><p>${{ item.producto.get_total_formatted }}</p></div>
                     <div style="flex:1"><p>x{{ item.cantidad }}</p></div>
                 </div>
                 {% endfor %}

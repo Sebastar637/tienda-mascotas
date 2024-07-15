@@ -17,8 +17,6 @@ class MyForm(forms.Form):
     email = forms.EmailField(label='Correo Electrónico')
     password = forms.CharField(label='Contraseña')
 
-
-
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',

@@ -1,8 +1,16 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-    {% if random_products %}
-    <div id="product-carousel" class="carousel slide" data-ride="carousel">
+    {% for message in messages %}
+        <div class="alert alert-success">
+            <ul>
+                <li>{{ message }}</li>
+            </ul>
+        </div>
+    {% endfor %}
+
+    {% if products %}
+    <div id="product-carousel" class="carousel slide {% if products|length > 1 %}d-lg-block{% else %}d-none{% endif %}" data-ride="carousel">
         <div class="carousel-inner">
             {% for product in random_products %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -13,7 +21,7 @@
                 {% endif %}
                 <div class="carousel-caption">
                     <h5 style="font-size: 30px;">{{ product.nombre }}</h5>
-                    <p>${{ product.precio }}</p>
+                    <p style="font-size: 20px;">${{ product.get_total_formatted }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -28,24 +36,22 @@
         </a>
     </div>
     {% endif %}
+    
     <div class="row mt-4">
         {% for product in products %}
-		<div class="col-lg-4">
-			{% if product.imagen %}
+        <div class="col-lg-4 col-md-6 col-12">
+            {% if product.imagen %}
                 <a href="{% url 'product_detail' product.id %}"><img class="thumbnail" src="{{ product.imageURL }}"></a>
             {% else %}
                 <a href="{% url 'product_detail' product.id %}"><img class="thumbnail" src="{% static 'img/default.png' %}"></a>
             {% endif %}
-			<div class="box-element product">
-				<h6><strong><a href="{% url 'product_detail' product.id %}">{{ product.nombre }}</a></strong></h6>
-				<hr>
-
-				<button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Agregar al Carrito</button>
-				
-				<h4 style="display: inline-block; float: right"><strong>${{ product.precio }}</strong></h4>
-
-			</div>
-		</div>
+            <div class="box-element product">
+                <h6><strong><a href="{% url 'product_detail' product.id %}">{{ product.nombre }}</a></strong></h6>
+                <hr>
+                <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Agregar al Carrito</button>
+                <h4 style="display: inline-block; float: right"><strong>${{ product.get_total_formatted }}</strong></h4>
+            </div>
+        </div>
         {% endfor %}
     </div>
 {% endblock content %}

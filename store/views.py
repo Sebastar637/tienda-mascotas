@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
@@ -54,14 +55,25 @@ def product_detail(request, product_id):
     return render(request, 'store/product_detail.html', context)
 
 def cart(request):
-	data = cartData(request)
+    data = cartData(request)
 
-	cartItems = data['cartItems']
-	order = data['order']
-	items = data['items']
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
 
-	context = {'items':items, 'order':order, 'cartItems':cartItems}
-	return render(request, 'store/cart.html', context)
+    es_donador = False
+    if request.user.is_authenticated:
+        es_donador = request.user.customer.donador
+
+    context = {
+        'items': items,
+        'order': order,
+        'cartItems': cartItems,
+        'es_donador': es_donador,
+    }
+    
+    return render(request, 'store/cart.html', context)
+
 
 def checkout(request):
 	data = cartData(request)
@@ -97,8 +109,6 @@ def updateItem(request):
 		orderItem.delete()
 
 	return JsonResponse('Item was added', safe=False)
-
-    
 
 def processOrder(request):
 	transaction_id = datetime.datetime.now().timestamp()
@@ -173,6 +183,26 @@ def register(request):
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/register.html', context)
 
+@login_required
+def donate(request):
+    if request.method == 'POST':
+        amount = request.POST.get('amount')
+        # Aquí puedes manejar el proceso de donación, como enviar el monto a la fundación
+        customer = request.user.customer
+        customer.donador = True
+        customer.save()
+        messages.success(request, '¡Gracias por tu donación! Ahora eres un donador y tienes un 5% de descuento en tus compras.')
+        return redirect('index')
+
+    data = cartData(request)
+
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+
+    context = {'items':items, 'order':order, 'cartItems':cartItems}
+
+    return render(request, 'store/donate.html', context)
 
 def product_list(request):
     products = Product.objects.all()

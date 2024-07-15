@@ -13,14 +13,12 @@
     <script type="text/javascript">
         var user = '{{ request.user }}';
 
-        // Obtenido de: https://docs.djangoproject.com/en/4.0/ref/csrf/#ajax
         function getToken(name) {
             var cookieValue = null;
             if (document.cookie && document.cookie !== '') {
                 var cookies = document.cookie.split(';');
                 for (var i = 0; i < cookies.length; i++) {
                     var cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
@@ -60,41 +58,43 @@
             </a>
         </div>
     </nav>
-    
 
     <nav class="navbar navbar-expand-lg barra-nav">
         <div class="container">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <img src="{% static 'img/hamburger_icon.png' %}" alt="Menú" style="height: 40px; width: auto; background-color: #e9ecef; border-radius: 20%;">
+            </button>            
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="btn" style="background-color: #D8EFD3; color: black; margin-right: 5px;" href="{% url 'index' %}">Tienda</a>
+                        <a class="btn" style="background-color: #D8EFD3; color: black; margin-right: 5px; margin-bottom: 6px;" href="{% url 'index' %}">Tienda</a>
                     </li>
                     <li class="nav-item active">
                         <a class="btn" style="background-color: #D8EFD3; color: black;" href="{% url 'about_us' %}">Sobre Nosotros</a>
                     </li>
                 </ul>
-                
-                <div class="form-inline my-2 my-lg-0">
+
+                <div class="form-inline my-2 my-lg-0 ml-auto">
                     {% if user.is_authenticated %}
+                        <a href="{% url 'donate' %}" class="btn" style="background-color: #e9ecef; margin-right: 5px;">Donar</a>
                         <a href="{% url 'logout' %}" class="btn" style="background-color: #e9ecef;">Cerrar sesión</a>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn" style="background-color: #e9ecef; margin-right: 20px;">Iniciar sesión</a>
+                        <a href="{% url 'login' %}" class="btn" style="background-color: #e9ecef; margin-right: 5px;">Iniciar sesión</a>
                         <a href="{% url 'register' %}" class="btn" style="background-color: #e9ecef;">Registrarse</a>
                     {% endif %}
-
-                    <a href="{% url 'cart' %}">
-                        <img id="cart-icon" src="{% static 'img/shopping_cart.png' %}">
-                    </a>
-
-                    <p id="cart-total">{{ cartItems }}</p>
                 </div>
+            </div>
+            
+            <div class="form-inline my-2 my-lg-0" style="background-color: #e9ecef; border-radius: 20%; margin-left: 5px;">
+                <a href="{% url 'cart' %}">
+                    <img id="cart-icon" src="{% static 'img/shopping_cart.png' %}">
+                </a>
+                <p id="cart-total">{{cartItems}}</p>
             </div>
         </div>
     </nav>
+    
 
     <div class="container">
         <br>

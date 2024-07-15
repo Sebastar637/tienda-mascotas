@@ -1,77 +1,83 @@
 {% extends 'store/main.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="box-element">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box-element">
 
-				<a class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Continuar comprando</a>
+                <a class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Continuar comprando</a>
 
-				<br>
-				<br>
-				<table class="table">
-					<tr>
-						<th><h5>Artículos: <strong>{{ order.get_cart_items }}</strong></h5></th>
-						<th><h5>Total:<strong> ${{ order.get_cart_total }}</strong></h5></th>
-						<th>
-							{% if items %}
-								<a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Pagar</a>
-							{% else %}
-								<a style="float:right; margin:5px;" class="btn btn-success btn-disabled" href="#" disabled>Pagar</a>
-							{% endif %}
-						</th>
-					</tr>
-				</table>
+                <br>
+                <br>
+                <table class="table">
+                    <tr>
+                        <th><h5>Artículos: <strong>{{ order.get_cart_items }}</strong></h5></th>
+                        <th>
+                            <h5>Total: <strong>${{ order.get_cart_total }}</strong></h5>
+                            {% if es_donador %}
+                                <h5>Descuento (5%): <strong>-${{ order.get_cart_discount }}</strong></h5>
+                                <h5>Total con Descuento: <strong>${{ order.get_cart_total_discount }}</strong></h5>
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if items %}
+                                <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Pagar</a>
+                            {% else %}
+                                <a style="float:right; margin:5px;" class="btn btn-success btn-disabled" href="#" disabled>Pagar</a>
+                            {% endif %}
+                        </th>
+                    </tr>
+                </table>
+            </div>
 
-			</div>
+            <br>
+            {% if items %}
+                <div class="box-element">
+                    <div class="cart-row">
+                        <div style="flex:2"></div>
+                        <div style="flex:2"><strong>Artículo</strong></div>
+                        <div style="flex:1"><strong>Precio</strong></div>
+                        <div style="flex:1"><strong>Cantidad</strong></div>
+                        <div style="flex:1"><strong>Total</strong></div>
+                    </div>
+                    {% for item in items %}
+                    <div class="cart-row">
+                        <div style="flex:2"><img class="row-image" src="{{ item.producto.imageURL }}"></div>
+                        <div style="flex:2"><p>{{ item.producto.nombre }}</p></div>
+                        <div style="flex:1"><p>${{ item.producto.get_total_formatted|default:item.producto.precio }}</p></div>
+                        <div style="flex:1">
+                            <p class="quantity">{{ item.cantidad }}</p>
+                            <div class="quantity">
+                                <img data-product="{{ item.producto.id }}" data-action="add" class="chg-quantity update-cart" src="{% static  'img/arrow_up.png' %}">
+                                <img data-product="{{ item.producto.id }}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow_down.png' %}">
+                            </div>
+                        </div>
+                        <div style="flex:1"><p>${{ item.get_total_formatted|default:item.producto.precio }}</p></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="box-element">
+                    <p>No hay artículos en tu carrito.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 
-			<br>
-			{% if items %}
-				<div class="box-element">
-					<div class="cart-row">
-						<div style="flex:2"></div>
-						<div style="flex:2"><strong>Artículo</strong></div>
-						<div style="flex:1"><strong>Precio</strong></div>
-						<div style="flex:1"><strong>Cantidad</strong></div>
-						<div style="flex:1"><strong>Total</strong></div>
-					</div>
-					{% for item in items %}
-					<div class="cart-row">
-						<div style="flex:2"><img class="row-image" src="{{ item.producto.imageURL }}"></div>
-						<div style="flex:2"><p>{{ item.producto.nombre }}</p></div>
-						<div style="flex:1"><p>${{ item.producto.precio }}</p></div>
-						<div style="flex:1">
-							<p class="quantity">{{ item.cantidad }}</p>
-							<div class="quantity">
-								<img data-product="{{ item.producto.id }}" data-action="add" class="chg-quantity update-cart" src="{% static  'img/arrow_up.png' %}">
-								<img data-product="{{ item.producto.id }}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow_down.png' %}">
-							</div>
-						</div>
-						<div style="flex:1"><p>${{ item.get_total }}</p></div>
-					</div>
-					{% endfor %}
-				</div>
-			{% else %}
-				<div class="box-element">
-					<p>No hay artículos en tu carrito.</p>
-				</div>
-			{% endif %}
-		</div>
-	</div>
+    <style>
+        .btn-disabled {
+            background-color: #999;
+            color: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+            border-color: #999;
+        }
 
-	<style>
-		.btn-disabled {
-			background-color: #999;
-			color: #ccc;
-			cursor: not-allowed;
-			pointer-events: none;
-			border-color: #999;
-		}
-
-		.btn-disabled:hover {
-			background-color: #999;
-			color: #ccc;
-			border-color: #999;
-		}
-	</style>
+        .btn-disabled:hover {
+            background-color: #999;
+            color: #ccc;
+            border-color: #999;
+        }
+    </style>
 {% endblock content %}
