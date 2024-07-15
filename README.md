@@ -2,7 +2,7 @@ Normalmente no subiria el entorno virtual (Si se fija en los archivos, tengo el 
 
 # Comando para activar entorno virtual
 
-- venv\Scripts\activate
+- myvenv\Scripts\activate
 
 # Para abrir el servidor
 
