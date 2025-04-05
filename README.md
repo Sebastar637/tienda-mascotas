@@ -1,8 +1,8 @@
-Normalmente no subiria el entorno virtual (Si se fija en los archivos, tengo el .gitignore vacio, cuando estaba usando este git ignore: https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/), pero para que no tenga que hacer todo el proceso de instalacion del entorno virtual, lo subi para evitar complicaciones y pueda lanzar directamente el proyecto.
+# Comando para crear y activar entorno virtual
 
-# Comando para activar entorno virtual
-
+- python -m venv venv
 - myvenv\Scripts\activate
+- pip install -r requirements.txt
 
 # Para abrir el servidor
 
