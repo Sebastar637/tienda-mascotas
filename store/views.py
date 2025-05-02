@@ -14,6 +14,57 @@ from .models import *
 from .utils import cookieCart, cartData
 from .forms import ProductForm
 
+from django.http import JsonResponse
+from django.shortcuts import render
+from paypalrestsdk import Payment
+from .models import Order
+
+def create_payment(request):
+    order = Order.objects.get(id=request.POST['order_id'])  # Obtener la orden por su ID
+
+    payment = Payment({
+        'intent': 'sale',
+        'payer': {
+            'payment_method': 'paypal'
+        },
+        'transactions': [{
+            'amount': {
+                'total': str(order.get_cart_total()),  # Total de la orden
+                'currency': 'USD',
+            },
+            'description': 'Compra en Tienda Mascotas',
+        }],
+        'redirect_urls': {
+            'return_url': request.build_absolute_uri('/payment/execute/'),
+            'cancel_url': request.build_absolute_uri('/payment/cancel/'),
+        }
+    })
+
+    if payment.create():
+        approval_url = next(link.href for link in payment.links if link.rel == 'approval_url')
+        return JsonResponse({'approval_url': approval_url})
+    else:
+        return JsonResponse({'error': 'No se pudo crear el pago'}, status=400)
+
+def execute_payment(request):
+    payment_id = request.GET['paymentId']
+    payer_id = request.GET['PayerID']
+
+    payment = Payment.find(payment_id)
+
+    if payment.execute({'payer_id': payer_id}):
+        # Actualizar la base de datos para marcar la orden como pagada
+        order = Order.objects.get(payment_id=payment_id)
+        order.status = 'completed'
+        order.save()
+
+        return render(request, 'store/payment_success.html', {'order': order})
+    else:
+        return render(request, 'store/payment_failed.html')
+
+def cancel_payment(request):
+    return render(request, 'store/payment_cancelled.html')
+
 def about_us(request):
 	data = cartData(request)
 
@@ -78,6 +129,8 @@ def cart(request):
 def checkout(request):
 	data = cartData(request)
 	
+	print(data)
+
 	cartItems = data['cartItems']
 	order = data['order']
 	items = data['items']

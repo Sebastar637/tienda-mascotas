@@ -1,0 +1,35 @@
+# Entorno virtual
+venv/
+.env/
+.envrc
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de log
+*.log
+
+# Archivos de base de datos SQLite
+*.sqlite3
+
+# Configuración del editor
+.vscode/
+.idea/
+*.swp
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de migraciones (si los quieres ignorar — opcional)
+# **/migrations/*.py
+# **/migrations/*.pyc
+
+# Archivos de media (opcional)
+media/
+uploads/
+
+# Archivos estáticos recolectados por collectstatic (si usas staticfiles)
+staticfiles/

@@ -131,6 +131,10 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
 
+PAYPAL_CLIENT_ID = 'AVP5d4yFdRGkfDH2vFcPj2RF2Q5JPX6OL2jS47tBAi61MuAdx30rlXZBQ1W2WHDNlrpXrkYZVy-M0EhD'
+PAYPAL_CLIENT_SECRET = 'EP8ZXBY3BvPx-z2zpM5l9Vv5YkHV2pMAnoUwJCj6JPQ_PD5B7sXCy2OQDvQxJN4Kq3i_gghM1lQjZddQ'
+PAYPAL_MODE = 'sandbox'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
