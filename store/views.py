@@ -145,8 +145,16 @@ def updateItem(request):
 	print('Action:', action)
 	print('Product:', productId)
 
+	if not request.user.is_authenticated:
+		return JsonResponse({'error': 'Usuario no autenticado'}, status=401)
+
 	customer = request.user.customer
-	product = Product.objects.get(id=productId)
+
+	try:
+		product = Product.objects.get(id=productId)
+	except Product.DoesNotExist:
+		return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+
 	order, created = Order.objects.get_or_create(cliente=customer, completado=False)
 
 	orderItem, created = OrderItem.objects.get_or_create(pedido=order, producto=product)
@@ -174,7 +182,7 @@ def processOrder(request):
 		order.id_transaccion = transaction_id
 
 		if total == order.get_cart_total:
-			order.complete = True
+			order.completado = True
 		order.save()
 	else:
 		print('User is not logged in')

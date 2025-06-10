@@ -16,9 +16,11 @@ class Product(models.Model):
 	nombre = models.CharField(max_length=200)
 	precio = models.IntegerField()
 	imagen = models.ImageField(null=True, blank=True)
+	descripcion = models.TextField(blank=True, null=True)
 
 	def __str__(self):
 		return self.nombre
+
 
 	@property
 	def get_total_formatted(self):
